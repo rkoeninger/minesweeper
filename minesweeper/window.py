@@ -1,18 +1,20 @@
-from tkinter import *
-from minesweeper.minefield import Minefield
+from itertools import product
+from tkinter import Button, Tk
 
 
 class Window:
 
-    def __init__(self):
-        self.minefield = Minefield(16, 16, 0.1)
+    def __init__(self, field):
+        self.minefield = field
         self.window = Tk()
         self.window.title("Minesweeper")
 
-        for x in range(0, 16):
-            for y in range(0, 16):
-                button = Button(self.window, text="_", command=self.clicked(x, y))
-                button.grid(column=x, row=y)
+        for (x, y) in product(range(field.width), range(field.height)):
+            button = Button(
+                self.window,
+                text="_",
+                command=self.clicked(x, y))
+            button.grid(column=x, row=y)
 
     def clicked(self, x, y):
         return lambda: print(str(self.minefield.is_mine_at(x, y)))
